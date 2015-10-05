@@ -62,6 +62,9 @@ public class CalculatorModel
             if(operand1.length()>=1 && operand2.length() >=1 && opType != null)
             {
                 result = performOperation(Double.parseDouble(operand1), Double.parseDouble(operand2), opType);
+            } else if(operand1.length() >= 1 && operand2.length() <1 && opType == null)
+            {
+                result = Double.parseDouble(operand1);
             }
 
             DecimalFormat format = new DecimalFormat("0.#");

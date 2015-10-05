@@ -10,13 +10,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView calcDisplay;
     CalculatorModel model;
+    Boolean splashVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 doOperation();
+                performSplash();
             }
         });
 
@@ -55,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.clear) {
             this.calcDisplay.setText("0");
             model.computeQueue.clear();
+            if(splashVisible) {
+                removeSplash();
+            }
             return true;
         }
 
@@ -74,17 +85,62 @@ public class MainActivity extends AppCompatActivity {
         this.calcDisplay.setText(newText);
 
         model.computeQueue.add(str);
+
+        if(splashVisible)
+        {
+            removeSplash();
+        }
     }
 
     public void performSplash()
     {
+        final View calcDisplay = findViewById(R.id.splash);
+        calcDisplay.setVisibility(View.VISIBLE);
 
+        int cx = (calcDisplay.getLeft() + calcDisplay.getRight());
+        int cy = calcDisplay.getBottom();
+
+        int radius = Math.max(calcDisplay.getWidth(), calcDisplay.getHeight());
+
+        SupportAnimator animator =
+                ViewAnimationUtils.createCircularReveal(calcDisplay, cx, cy, 0, radius);
+
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setDuration(300);
+        animator.start();
+        splashVisible = true;
     }
+
+    public void removeSplash()
+    {
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        final View splash = findViewById(R.id.splash);
+        fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                splash.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        splash.startAnimation(fadeInAnimation);
+
+        splashVisible = false;
+    }
+
 
     public void doOperation()
     {
         String result = model.computeResult();
-        Toast.makeText(this,result,Toast.LENGTH_LONG).show();
         calcDisplay.setText(result);
         model.computeQueue.add(result);
     }
