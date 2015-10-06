@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="425dp"
+    android:layout_width="match_parent" android:layout_height="0dp"
+    android:layout_weight="1"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity"
     android:layout_gravity="bottom"
     android:background="@color/colorNumberPad"
+    android:id="@+id/numberPadLayout"
     >
 
     <LinearLayout

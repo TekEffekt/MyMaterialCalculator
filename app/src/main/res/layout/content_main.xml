@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="135dp"
+    android:layout_height="100dp"
+    android:id="@+id/contentLayout"
         >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="0"
-        android:textSize="70sp"
+        android:textSize="60sp"
         android:gravity="right|center_vertical"
         android:textColor="#FFF"
         android:id="@+id/calc_display"
         android:paddingRight="14dp"
+        android:paddingBottom="20dp"
         />
 </FrameLayout>
